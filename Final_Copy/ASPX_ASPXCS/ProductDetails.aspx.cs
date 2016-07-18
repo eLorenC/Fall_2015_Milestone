@@ -11,6 +11,9 @@ public partial class ProductDetails : System.Web.UI.Page
     private WLW db = new WLW();
     protected void Page_Load(object sender, EventArgs e)
     {
+        string pID, pName, pTp, pPrice;
+        int uID;
+        
         if (!Page.IsPostBack)
         {
             try
@@ -29,16 +32,15 @@ public partial class ProductDetails : System.Web.UI.Page
                     where p.ProductID == uID
                     select p;
 
-                string pID = pQuery.FirstOrDefault().ProductID.ToString();
-                string pName = pQuery.FirstOrDefault().productName;
-                string pTp = pQuery.FirstOrDefault().pType;
-                string pPrice = pQuery.FirstOrDefault().price.ToString();
+                pID = pQuery.FirstOrDefault().ProductID.ToString();
+                pName = pQuery.FirstOrDefault().productName;
+                pTp = pQuery.FirstOrDefault().pType;
+                pPrice = pQuery.FirstOrDefault().price.ToString();
 
                 pID_lbl.Text = pID;
                 pN_lbl.Text = pName;
                 pT_lbl.Text = pTp;
                 pPrice_lbl.Text = pPrice;
-
             }
             catch (Exception err)
             {
@@ -47,7 +49,7 @@ public partial class ProductDetails : System.Web.UI.Page
         }
         else
         {
-            int uID = Convert.ToInt16(Request["ProductID"]);
+            uID = Convert.ToInt16(Request["ProductID"]);
             product_ID.Value = uID.ToString();
 
             Table<Product> Product = db.GetTable<Product>();
@@ -59,10 +61,10 @@ public partial class ProductDetails : System.Web.UI.Page
                 where p.ProductID == uID
                 select p;
 
-            string pID = pQuery.FirstOrDefault().ProductID.ToString();
-            string pName = pQuery.FirstOrDefault().productName;
-            string pTp = pQuery.FirstOrDefault().pType;
-            string pPrice = pQuery.FirstOrDefault().price.ToString();
+            pID = pQuery.FirstOrDefault().ProductID.ToString();
+            pName = pQuery.FirstOrDefault().productName;
+            pTp = pQuery.FirstOrDefault().pType;
+            pPrice = pQuery.FirstOrDefault().price.ToString();
 
             pID_lbl.Text = pID;
             pN_lbl.Text = pName;
@@ -73,9 +75,10 @@ public partial class ProductDetails : System.Web.UI.Page
 
     protected void addCart_btn_Click(object sender, EventArgs e)
     {
+        int pQty, hfID;
+        
         try
         {
-            int pQty, hfID;
             int.TryParse(pQuantityList.SelectedValue, out pQty);
             Button btn = (Button)sender;
             HiddenField hf = (HiddenField)btn.FindControl("product_ID");

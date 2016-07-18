@@ -27,7 +27,6 @@ public partial class Contact : System.Web.UI.Page
             }
             else
             {
-
                 try {
                     MailAddress messageFrom = new MailAddress(defaultAddress);
                     string messageSubject = subject.Text;
@@ -66,13 +65,8 @@ public partial class Contact : System.Web.UI.Page
                     sentEmail.Text = Convert.ToString(ex) + "";
                 }
             }
-
         }
-
     }
-
-
-
 
     protected Boolean validateAddress(string senderEmail)
     {
@@ -86,8 +80,8 @@ public partial class Contact : System.Web.UI.Page
         {
             return false;
         }
-
     }
+    
     protected Boolean checkAddresses(string address)
     {
         address.TrimEnd(' ');

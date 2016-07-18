@@ -10,7 +10,6 @@ using System.Configuration;
 
 public partial class Products : System.Web.UI.Page
 {
-
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!Page.IsPostBack)
@@ -20,18 +19,18 @@ public partial class Products : System.Web.UI.Page
     }
     protected void searchBtn_OnClick(object sender, EventArgs e)
     {
+        string[] searchTerms;
+        string sqlQuery, connectionString;
         try
         {
-            string connectionString
-               = ConfigurationManager.ConnectionStrings["WeLoveWhiskey"].ConnectionString;
-
+            connectionString = ConfigurationManager.ConnectionStrings["WeLoveWhiskey"].ConnectionString;
             statusL.Text = "Searching for " + searchTerm.Text;
-            string sqlQuery = "USE WeLoveWhiskey; SELECT  productID, productName, pType, size, price " +
+            sqlQuery = "USE WeLoveWhiskey; SELECT  productID, productName, pType, size, price " +
                                " FROM Product " +
                                "Where productName LIKE ''";
 
 
-            string[] searchTerms = searchTerm.Text.Replace(";"," ").Replace("\'","").Replace(","," ").Split(' ');
+            searchTerms = searchTerm.Text.Replace(";"," ").Replace("\'","").Replace(","," ").Split(' ');
 
             foreach (string term in searchTerms)
             {
@@ -50,18 +49,17 @@ public partial class Products : System.Web.UI.Page
         }
         catch (Exception exc)
         {
-
-            statusL.Text = exc.Message + "\n " + exc.StackTrace;
+            //statusL.Text = exc.Message + "\n " + exc.StackTrace;
         }
     }
 
     public void PopulateDatagrid()
     {
+        string connectionString, sqlQuery;
         try
         {
-            string connectionString
-               = ConfigurationManager.ConnectionStrings["WeLoveWhiskey"].ConnectionString;
-            string sqlQuery = "SELECT productID, productName, pType, size, price " +
+            connectionString = ConfigurationManager.ConnectionStrings["WeLoveWhiskey"].ConnectionString;
+            sqlQuery = "SELECT productID, productName, pType, size, price " +
                               " FROM Product; ";
             SqlDataAdapter outlookRecords =
                 new SqlDataAdapter(sqlQuery, connectionString);
@@ -72,13 +70,10 @@ public partial class Products : System.Web.UI.Page
             DataView dv = new DataView(ds.Tables[0]);
             ProductsGrid.DataSource = dv;
             ProductsGrid.DataBind();
-
         }
         catch (Exception exc)
         {
-            statusL.Text = exc.Message;
+            //statusL.Text = exc.Message;
         }
-
     }
-
 }
